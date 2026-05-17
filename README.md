@@ -1,5 +1,16 @@
 Set up env
     cd backend server
-    pipenv insatll
+    pipenv install
     pipenv shell
 
+Start backend server
+    flask db init
+    flask db migrate -m "initial migration"
+    flask db upgrade
+
+Start frontend server
+    cd frontend
+    npm run dev
+    
+install req.txt
+    pip install -r requirements.txt

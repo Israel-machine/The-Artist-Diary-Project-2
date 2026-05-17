@@ -3,9 +3,7 @@ from datetime import timedelta
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-class Config:
-    """Base configuration settings."""
-    
+class Config:    
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-me-123')
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'dev-jwt-key-change-me-456')
     

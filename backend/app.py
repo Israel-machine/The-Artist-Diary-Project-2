@@ -1,26 +1,24 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_migrate import Migrate
-from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from datetime import datetime
-
-# Import configuration and database models
 from config import DevelopmentConfig
-from models import db, User, Project, Session
+from models import db, User, Project, Session, bcrypt
+from flask_bcrypt import Bcrypt
 
-#Initialization & App Setup
+# Initialization & App Setup
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 
 db.init_app(app)
+bcrypt.init_app(app)
 migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 cors = CORS(app) 
 
+# Authentication Routes 
 
-#Authentication Routes
 @app.route('/api/auth/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -33,8 +31,7 @@ def signup():
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "Username already exists"}), 400
 
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(username=username, password_hash=hashed_password)
+    new_user = User(username=username, password_hash=password)
     
     db.session.add(new_user)
     db.session.commit()
@@ -51,26 +48,34 @@ def login():
 
     user = User.query.filter_by(username=username).first()
 
-    if not user or not bcrypt.check_password_hash(user.password_hash, password):
+    if not user or not user.authenticate(password):
         return jsonify({"error": "unauthorized request"}), 401
 
     access_token = create_access_token(identity=str(user.id))
-    return jsonify({"token": access_token, "user": {"id": user.id, "username": user.username}}), 200
+    return jsonify({
+        "token": access_token, 
+        "user": {"id": user.id, "username": user.username}
+    }), 200
 
 
 @app.route('/api/auth/me', methods=['GET'])
 @jwt_required()
 def get_me():
     current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
+    
+    user = db.session.get(User, int(current_user_id))
     
     if not user:
         return jsonify({"error": "User not found"}), 404
         
-    return jsonify({"id": user.id, "username": user.username}), 200
+    return jsonify({
+        "id": user.id, 
+        "username": user.username
+    }), 200
 
 
 # Project Routes (Home Page / Dashboard)
+
 @app.route('/api/projects', methods=['GET', 'POST'])
 @jwt_required()
 def handle_projects():
@@ -128,6 +133,7 @@ def handle_single_project(id):
 
 
 # Session Routes (Studio Logs Detail Page)
+
 @app.route('/api/projects/<int:id>/sessions', methods=['GET', 'POST'])
 @jwt_required()
 def handle_project_sessions(id):
