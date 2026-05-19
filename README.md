@@ -14,3 +14,6 @@ Start frontend server
     
 install req.txt
     pip install -r requirements.txt
+
+Front end packages:
+install react-router-dom
