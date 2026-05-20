@@ -17,3 +17,6 @@ install req.txt
 
 Front end packages:
 install react-router-dom
+
+
+Will need to initialize the backend server(virtual env activation), then the front end server (npm run dev)
