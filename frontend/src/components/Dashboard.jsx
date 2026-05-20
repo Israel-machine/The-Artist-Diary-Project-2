@@ -95,6 +95,33 @@ export default function Dashboard() {
         </div>
       )}
 
-      
+      {!editingProject && (
+        <form onSubmit={handleCreate} style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '40px', background: 'var(--code-bg)', padding: '20px', borderRadius: '6px' }}>
+          <h3>Initialize New Project Ledger</h3>
+          <input type="text" placeholder="Project Title (e.g., Marble Bust)" value={title} onChange={e => setTitle(e.target.value)} required style={{ padding: '8px' }} />
+          <input type="text" placeholder="Medium (e.g., Oil, Digital, Sculpting)" value={medium} onChange={e => setMedium(e.target.value)} style={{ padding: '8px' }} />
+          <textarea placeholder="Target parameters, concepts, and scope notes..." value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '8px' }} />
+          <button type="submit" className="counter" style={{ width: 'fit-content', margin: 0 }}>Create Entry</button>
+        </form>
+      )}
+
+      <h3>Active Project</h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginTop: '20px' }}>
+        {projects.map(project => (
+          <div key={project.id} style={{ border: '1px solid var(--border)', padding: '20px', borderRadius: '6px', background: 'var(--bg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <h4 style={{ margin: '0 0 5px 0', color: 'var(--text-h)' }}>{project.title}</h4>
+              <span style={{ fontSize: '13px', background: 'var(--accent-bg)', color: 'var(--accent)', padding: '2px 6px', borderRadius: '4px' }}>{project.medium || 'Unspecified Medium'}</span>
+              <p style={{ marginTop: '10px', fontSize: '15px', color: 'var(--text)' }}>{project.description || 'No description provided.'}</p>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+              <Link to={`/projects/${project.id}`} className="counter" style={{ textDecoration: 'none', margin: 0, fontSize: '14px' }}>View Logs</Link>
+              <button onClick={() => setEditingProject(project)} className="counter" style={{ margin: 0, fontSize: '14px', background: 'none' }}>Edit</button>
+              <button onClick={() => handleDelete(project.id)} className="counter" style={{ margin: 0, fontSize: '14px', background: 'none', color: 'red' }}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
