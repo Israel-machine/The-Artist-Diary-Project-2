@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function ProjectDetail() {
-  const { id } = useParams(); // Extracts the project ID directly from the browser URL path
+  const { id } = useParams(); 
   const { token, BASE_URL } = useAuth();
   const [project, setProject] = useState(null);
   const [sessions, setSessions] = useState([]);
@@ -18,7 +18,6 @@ export default function ProjectDetail() {
 
   const fetchWorkspaceDetails = async () => {
     try {
-      // 1. Fetch parent project info
       const projRes = await fetch(`${BASE_URL}/projects/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -30,7 +29,6 @@ export default function ProjectDetail() {
       const projData = await projRes.json();
       setProject(projData);
 
-      // 2. Fetch sessions separately so it won't break the page if empty
       try {
         const sessRes = await fetch(`${BASE_URL}/projects/${id}/sessions`, {
           headers: { 'Authorization': `Bearer ${token}` }
@@ -54,7 +52,6 @@ export default function ProjectDetail() {
     fetchWorkspaceDetails();
   }, [id, token, BASE_URL]);
 
-  // Handle Submission: Packages inputs and POSTs to the backend database
   const handleAddSession = async (e) => {
     e.preventDefault();
     setError('');
@@ -79,13 +76,11 @@ export default function ProjectDetail() {
         throw new Error(errData.error || 'Failed to record session entries.');
       }
 
-      // Reset form controls on success
       setDate('');
       setColorNotes('');
       setPlaylistUrl('');
       setDurationMinutes('');
       
-      // Refresh timeline layout from database
       fetchWorkspaceDetails();
     } catch (err) {
       setError(err.message);
@@ -105,8 +100,6 @@ export default function ProjectDetail() {
       {error && <div style={{ color: 'red', margin: '15px 0' }}>⚠️ {error}</div>}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '20px' }}>
-        
-        {/* LEFT COLUMN: Create New Session Form Wrapper */}
         <div>
           <h3>⏱️ Record Studio Session</h3>
           <form onSubmit={handleAddSession} style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'var(--social-bg)', padding: '20px', borderRadius: '8px' }}>
@@ -142,7 +135,6 @@ export default function ProjectDetail() {
           </form>
         </div>
 
-        {/* RIGHT COLUMN: Sessions Timeline Container */}
         <div>
           <h3>📜 Production Timeline Log</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>

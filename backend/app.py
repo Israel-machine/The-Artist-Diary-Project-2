@@ -28,12 +28,6 @@ def signup():
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
 
-    # if User.query.filter_by(username=username).first():
-    #     return jsonify({"error": "Username already exists"}), 400
-
-    # new_user = User(username=username, password_hash=password)
-    # db.session.add(new_user)
-    # db.session.commit()
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "Username already exists"}), 400
     
@@ -70,9 +64,6 @@ def login():
 @app.route('/api/auth/logout', methods=['POST'])
 @jwt_required()
 def logout_backend():
-    # Since we are using stateless JWTs stored in localStorage, 
-    # the client deleting the token is technically enough, but this route 
-    # completes your API requirements.
     return jsonify({"message": "Logged out successfully"}), 200
 
 
@@ -126,21 +117,31 @@ def handle_projects():
         return jsonify({"message": "Project created", "id": new_project.id}), 201
 
 
-@app.route('/api/projects/<int:id>', methods=['PUT', 'DELETE'])
+@app.route('/api/projects/<int:id>', methods=['GET', 'PUT', 'DELETE']) 
 @jwt_required()
 def handle_single_project(id):
     current_user_id = int(get_jwt_identity())
-    project = Project.query.get_or_404(id)
+    project = db.session.get(Project, id)
+    
+    if not project:
+        return jsonify({"error": "Project not found"}), 404
 
     if project.user_id != current_user_id:
         return jsonify({"error": "Unauthorized to access this project"}), 403
+
+    if request.method == 'GET':
+        return jsonify({
+            "id": project.id,
+            "title": project.title,
+            "medium": project.medium,
+            "description": project.description
+        }), 200
 
     if request.method == 'PUT':
         data = request.get_json()
         project.title = data.get('title', project.title)
         project.medium = data.get('medium', project.medium)
         project.description = data.get('description', project.description)
-        
         db.session.commit()
         return jsonify({"message": "Project updated successfully"}), 200
 
@@ -149,8 +150,6 @@ def handle_single_project(id):
         db.session.commit()
         return jsonify({"message": "Project and its associated sessions deleted"}), 200
 
-
-# Session Routes (Studio Logs Detail Page)
 
 @app.route('/api/projects/<int:id>/sessions', methods=['GET', 'POST'])
 @jwt_required()

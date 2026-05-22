@@ -3,7 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
-// 1. Destructure logout from your AuthContext hook
 const { token, logout, BASE_URL } = useAuth(); 
 const [projects, setProjects] = useState([]);
 const [loading, setLoading] = useState(true);

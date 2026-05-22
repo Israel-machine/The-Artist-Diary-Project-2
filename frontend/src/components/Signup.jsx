@@ -14,7 +14,7 @@ export default function Signup() {
     setError('');
     try {
       await signup(username, password);
-      navigate('/login'); // Redirect to log in with new credentials
+      navigate('/login'); 
     } catch (err) {
       setError(err.message || 'Registration failed');
     }
