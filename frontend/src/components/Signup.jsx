@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup() {
   const { signup } = useAuth();
@@ -11,26 +11,27 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      setError('');
       await signup(username, password);
-      navigate('/');
+      navigate('/login'); // Redirect to log in with new credentials
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Registration failed');
     }
   };
 
   return (
-    <section id="center" style={{ padding: '40px max(20px, calc(50% - 200px))' }}>
-      <h2>Create Account</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+    <div id="center" style={{ maxWidth: '400px', margin: '40px auto' }}>
+      <h1>Register</h1>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
+        {error && <div style={{ color: 'red', fontSize: '14px' }}>{error}</div>}
         <input 
           type="text" 
           placeholder="Choose Username" 
           value={username} 
           onChange={e => setUsername(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--code-bg)', color: 'var(--text-h)' }}
+          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
         />
         <input 
           type="password" 
@@ -38,16 +39,13 @@ export default function Signup() {
           value={password} 
           onChange={e => setPassword(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--code-bg)', color: 'var(--text-h)' }}
+          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
         />
-        <button type="submit" className="counter" style={{ width: '100%', justifyContent: 'center', cursor: 'pointer' }}>
-          Register & Log In
-        </button>
-        {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
-        <p style={{ fontSize: '14px' }}>
-          Already have an account? <Link to="/login" style={{ color: 'var(--accent)' }}>Sign In</Link>
-        </p>
+        <button type="submit" className="counter" style={{ width: '100%', cursor: 'pointer' }}>Register Space</button>
       </form>
-    </section>
+      <p style={{ fontSize: '14px' }}>
+        Already registered? <Link to="/login" style={{ color: 'var(--accent)' }}>Sign in here</Link>
+      </p>
+    </div>
   );
 }

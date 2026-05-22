@@ -1,26 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
   const { token, BASE_URL } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   const [title, setTitle] = useState('');
   const [medium, setMedium] = useState('');
   const [description, setDescription] = useState('');
-  
-  const [editingProject, setEditingProject] = useState(null);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
+  const fetchProjects = () => {
     fetch(`${BASE_URL}/projects`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
-      .then(data => setProjects(data))
-      .catch(err => console.error(err));
-  }, [token, BASE_URL]);
+      .then(data => { if (Array.isArray(data)) setProjects(data); })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  };
 
-  const handleCreate = async (e) => {
+  useEffect(() => { fetchProjects(); }, [token, BASE_URL]);
+
+  const handleCreateProject = async (e) => {
     e.preventDefault();
     try {
       const res = await fetch(`${BASE_URL}/projects`, {
@@ -31,93 +35,43 @@ export default function Dashboard() {
         },
         body: JSON.stringify({ title, medium, description })
       });
-      const data = await res.json();
-      if (res.ok) {
-        setProjects([...projects, { id: data.id, title, medium, description }]);
-        setTitle(''); setMedium(''); setDescription('');
-      }
+      if (!res.ok) throw new Error('Could not generate canvas footprint.');
+      
+      // Reset forms and update tracking UI
+      setTitle('');
+      setMedium('');
+      setDescription('');
+      fetchProjects();
     } catch (err) {
-      console.error(err);
+      setError(err.message);
     }
   };
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`${BASE_URL}/projects/${editingProject.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(editingProject)
-      });
-      if (res.ok) {
-        setProjects(projects.map(p => p.id === editingProject.id ? editingProject : p));
-        setEditingProject(null);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this project and all associated logs?")) return;
-    try {
-      const res = await fetch(`${BASE_URL}/projects/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) {
-        setProjects(projects.filter(p => p.id !== id));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  if (loading) return <div id="center">Loading studio space...</div>;
 
   return (
-    <div style={{ padding: '20px', textAlign: 'left' }}>
-      <h2>Studio Workbench</h2>
+    <div id="center" style={{ width: '100%', maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+      <h1>Your Studio Dashboard</h1>
 
-      {editingProject && (
-        <div style={{ background: 'var(--code-bg)', padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--accent)' }}>
-          <h3>Edit Project Matrix</h3>
-          <form onSubmit={handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <input type="text" value={editingProject.title} onChange={e => setEditingProject({...editingProject, title: e.target.value})} required style={{ padding: '8px' }}/>
-            <input type="text" value={editingProject.medium || ''} onChange={e => setEditingProject({...editingProject, medium: e.target.value})} style={{ padding: '8px' }}/>
-            <textarea value={editingProject.description || ''} onChange={e => setEditingProject({...editingProject, description: e.target.value})} style={{ padding: '8px' }}/>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button type="submit" className="counter" style={{ margin: 0 }}>Save Changes</button>
-              <button type="button" className="counter" onClick={() => setEditingProject(null)} style={{ margin: 0, background: 'none', color: 'var(--text)' }}>Cancel</button>
-            </div>
-          </form>
-        </div>
-      )}
+      <form onSubmit={handleCreateProject} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid var(--border)', borderRadius: '8px' }}>
+        <h3>🎨 Initialize New Artwork</h3>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <input type="text" placeholder="Artwork Title" value={title} onChange={e => setTitle(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
+        <input type="text" placeholder="Medium (e.g., Oil, Acrylic, Digital)" value={medium} onChange={e => setMedium(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
+        <textarea placeholder="Creative notes, background details, or targets..." value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)', minHeight: '8px' }} />
+        <button type="submit" className="counter" style={{ cursor: 'pointer' }}>Commit Project</button>
+      </form>
 
-      {!editingProject && (
-        <form onSubmit={handleCreate} style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '40px', background: 'var(--code-bg)', padding: '20px', borderRadius: '6px' }}>
-          <h3>Initialize New Project Ledger</h3>
-          <input type="text" placeholder="Project Title (e.g., Marble Bust)" value={title} onChange={e => setTitle(e.target.value)} required style={{ padding: '8px' }} />
-          <input type="text" placeholder="Medium (e.g., Oil, Digital, Sculpting)" value={medium} onChange={e => setMedium(e.target.value)} style={{ padding: '8px' }} />
-          <textarea placeholder="Target parameters, concepts, and scope notes..." value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '8px' }} />
-          <button type="submit" className="counter" style={{ width: 'fit-content', margin: 0 }}>Create Entry</button>
-        </form>
-      )}
-
-      <h3>Active Project</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginTop: '20px' }}>
+      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginTop: '30px' }}>
         {projects.map(project => (
-          <div key={project.id} style={{ border: '1px solid var(--border)', padding: '20px', borderRadius: '6px', background: 'var(--bg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div key={project.id} style={{ padding: '20px', border: '1px solid var(--border)', borderRadius: '8px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
-              <h4 style={{ margin: '0 0 5px 0', color: 'var(--text-h)' }}>{project.title}</h4>
-              <span style={{ fontSize: '13px', background: 'var(--accent-bg)', color: 'var(--accent)', padding: '2px 6px', borderRadius: '4px' }}>{project.medium || 'Unspecified Medium'}</span>
-              <p style={{ marginTop: '10px', fontSize: '15px', color: 'var(--text)' }}>{project.description || 'No description provided.'}</p>
+              <h2 style={{ margin: '0 0 4px 0' }}>{project.title}</h2>
+              <span style={{ fontSize: '13px', background: 'var(--accent-bg)', color: 'var(--accent)', padding: '2px 8px', borderRadius: '12px' }}>{project.medium}</span>
+              <p style={{ marginTop: '12px', fontSize: '14px', color: 'var(--text)' }}>{project.description}</p>
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <Link to={`/projects/${project.id}`} className="counter" style={{ textDecoration: 'none', margin: 0, fontSize: '14px' }}>View Logs</Link>
-              <button onClick={() => setEditingProject(project)} className="counter" style={{ margin: 0, fontSize: '14px', background: 'none' }}>Edit</button>
-              <button onClick={() => handleDelete(project.id)} className="counter" style={{ margin: 0, fontSize: '14px', background: 'none', color: 'red' }}>Delete</button>
+            <div style={{ marginTop: '20px' }}>
+              <Link to={`/projects/${project.id}`} className="counter" style={{ textDecoration: 'none', display: 'inline-block' }}>Open Log & Sessions →</Link>
             </div>
           </div>
         ))}
