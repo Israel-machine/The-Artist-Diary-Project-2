@@ -28,13 +28,22 @@ def signup():
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
 
+    # if User.query.filter_by(username=username).first():
+    #     return jsonify({"error": "Username already exists"}), 400
+
+    # new_user = User(username=username, password_hash=password)
+    # db.session.add(new_user)
+    # db.session.commit()
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "Username already exists"}), 400
-
-    new_user = User(username=username, password_hash=password)
     
+    new_user = User(username=username)
+    new_user.password_hash = password 
     db.session.add(new_user)
     db.session.commit()
+
+
+
 
     access_token = create_access_token(identity=str(new_user.id))
     return jsonify({"message": "User created successfully", "token": access_token}), 201
@@ -56,6 +65,15 @@ def login():
         "token": access_token, 
         "user": {"id": user.id, "username": user.username}
     }), 200
+
+#LOGOUT
+@app.route('/api/auth/logout', methods=['POST'])
+@jwt_required()
+def logout_backend():
+    # Since we are using stateless JWTs stored in localStorage, 
+    # the client deleting the token is technically enough, but this route 
+    # completes your API requirements.
+    return jsonify({"message": "Logged out successfully"}), 200
 
 
 @app.route('/api/auth/me', methods=['GET'])

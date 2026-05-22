@@ -2,24 +2,20 @@ import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import './App.css';
 
-// Component operational bindings
+// Operational Component Bindings
 import Login from './components/Login'; 
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
-import ProjectDetail from './components/ProjectDetail';
+import ProjectDetail from './components/ProjectDetail'; // Ensure file exists here!
 
 const ProtectedRoute = ({ children }) => {
   const { token, loading } = useAuth();
-  
-  if (loading) {
-    return <div style={{ display: 'flex', justifyContent: 'center', padding: '50px' }}>Loading session...</div>;
-  }
-  
+  if (loading) return <div style={{ padding: '50px', textAlign: 'center' }}>Validating artist token...</div>;
   return token ? children : <Navigate to="/login" replace />;
 };
 
 export default function App() {
-  const { user, logout, loading } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -34,12 +30,10 @@ export default function App() {
               Logout ({user.username})
             </button>
           ) : (
-            !loading && (
-              <>
-                <Link to="/login" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Login</Link>
-                <Link to="/signup" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Signup</Link>
-              </>
-            )
+            <>
+              <Link to="/login" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Login</Link>
+              <Link to="/signup" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Signup</Link>
+            </>
           )}
         </nav>
       </header>
@@ -49,12 +43,13 @@ export default function App() {
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" replace />} />
           
-          {/* Protected Operational Pathways */}
+          {/* Dynamic Operation Pathways */}
           <Route path="/" element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           } />
+          
           <Route path="/projects/:id" element={
             <ProtectedRoute>
               <ProjectDetail />
