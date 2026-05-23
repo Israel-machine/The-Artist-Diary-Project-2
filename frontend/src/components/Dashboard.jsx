@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import '../../src/components.css'
 
 export default function Dashboard() {
   const { token, logout, BASE_URL } = useAuth(); 
@@ -12,7 +13,6 @@ export default function Dashboard() {
   const [medium, setMedium] = useState('');
   const [description, setDescription] = useState('');
 
-  
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editMedium, setEditMedium] = useState('');
@@ -47,7 +47,6 @@ export default function Dashboard() {
     } catch (err) { setError(err.message); }
   };
 
-  
   const handleUpdateProject = async (e, id) => {
     e.preventDefault();
     try {
@@ -60,7 +59,7 @@ export default function Dashboard() {
         body: JSON.stringify({ title: editTitle, medium: editMedium, description: editDescription })
       });
       if (!res.ok) throw new Error('Failed to update project data.');
-      setEditingProjectId(null); // Close edit view layout
+      setEditingProjectId(null);
       fetchProjects();
     } catch (err) { setError(err.message); }
   };
@@ -77,7 +76,6 @@ export default function Dashboard() {
     } catch (err) { setError(err.message); }
   };
 
-  
   const startEditing = (project) => {
     setEditingProjectId(project.id);
     setEditTitle(project.title);
@@ -88,55 +86,86 @@ export default function Dashboard() {
   if (loading) return <div id="center">Loading studio space...</div>;
 
   return (
-    <div id="center" style={{ width: '100%', maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div id="center" className="dashboard">
+      <div className="dashboard__header">
         <h1>Your Studio Dashboard</h1>
-        <button onClick={logout} className="counter" style={{ background: '#ff4d4d', color: '#fff', cursor: 'pointer' }}>Leave Diary (Logout)</button>
+        <button onClick={logout} className="counter dashboard__logout-btn">Leave Diary (Logout)</button>
       </div>
 
-      <form onSubmit={handleCreateProject} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid var(--border)', borderRadius: '8px' }}>
+      <form onSubmit={handleCreateProject} className="project-create-form">
         <h3>🎨 New Project Details</h3>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <input type="text" placeholder="Artwork Title" value={title} onChange={e => setTitle(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
-        <input type="text" placeholder="Medium" value={medium} onChange={e => setMedium(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
-        <textarea placeholder="Creative notes..." value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)', minHeight: '60px' }} />
-        <button type="submit" className="counter" style={{ cursor: 'pointer' }}>Create New Project</button>
+        {error && <p className="form-error">{error}</p>}
+        <input
+          type="text"
+          placeholder="Artwork Title"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          required
+          className="form-input"
+        />
+        <input
+          type="text"
+          placeholder="Medium"
+          value={medium}
+          onChange={e => setMedium(e.target.value)}
+          required
+          className="form-input"
+        />
+        <textarea
+          placeholder="Creative notes..."
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          className="form-textarea"
+        />
+        <button type="submit" className="counter">Create New Project</button>
       </form>
 
       <div>CURRENT PROJECTS</div>
-      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginTop: '30px' }}>
+      <div className="project-grid">
         {projects.map(project => (
-          <div key={project.id} style={{ padding: '20px', borderRadius: '8px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
-            
+          <div key={project.id} className="project-card">
             {editingProjectId === project.id ? (
-              /* INLINE EDIT CARD LAYOUT */
-              <form onSubmit={(e) => handleUpdateProject(e, project.id)} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} required style={{ padding: '4px' }} />
-                <input type="text" value={editMedium} onChange={e => setEditMedium(e.target.value)} required style={{ padding: '4px' }} />
-                <textarea value={editDescription} onChange={e => setEditDescription(e.target.value)} style={{ padding: '4px', minHeight: '50px' }} />
-                <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
-                  <button type="submit" style={{ background: '#28a745', color: '#fff', padding: '4px 8px', cursor: 'pointer' }}>Save</button>
-                  <button type="button" onClick={() => setEditingProjectId(null)} style={{ background: '#6c757d', color: '#fff', padding: '4px 8px', cursor: 'pointer' }}>Cancel</button>
+              <form onSubmit={(e) => handleUpdateProject(e, project.id)} className="project-card__edit-form">
+                <input
+                  type="text"
+                  value={editTitle}
+                  onChange={e => setEditTitle(e.target.value)}
+                  required
+                  className="project-card__edit-input"
+                />
+                <input
+                  type="text"
+                  value={editMedium}
+                  onChange={e => setEditMedium(e.target.value)}
+                  required
+                  className="project-card__edit-input"
+                />
+                <textarea
+                  value={editDescription}
+                  onChange={e => setEditDescription(e.target.value)}
+                  className="project-card__edit-textarea"
+                />
+                <div className="project-card__edit-actions">
+                  <button type="submit" className="btn-save">Save</button>
+                  <button type="button" onClick={() => setEditingProjectId(null)} className="btn-cancel">Cancel</button>
                 </div>
               </form>
             ) : (
-              
               <>
-                <div>
-                  <h2 style={{ margin: '0 0 4px 0' }}>{project.title}</h2>
-                  <span style={{ fontSize: '13px', background: 'var(--accent-bg)', color: 'var(--accent)', padding: '2px 8px', borderRadius: '12px' }}>{project.medium}</span>
-                  <p style={{ marginTop: '12px', fontSize: '14px', color: 'var(--text)' }}>{project.description}</p>
+                <div className="project-card__body">
+                  <h2 className="project-card__title">{project.title}</h2>
+                  <span className="project-card__medium">{project.medium}</span>
+                  <p className="project-card__description">{project.description}</p>
                 </div>
-                <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Link to={`/projects/${project.id}`} className="counter" style={{ textDecoration: 'none', margin: 0 }}>Open Log →</Link>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <button onClick={() => startEditing(project)} style={{ background: 'transparent', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '13px' }}>Edit Info</button>
-                    <button onClick={() => handleDeleteProject(project.id)} style={{ background: 'transparent', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '13px' }}>Discard</button>
+                <div className="project-card__footer">
+                  <Link to={`/projects/${project.id}`} className="counter project-card__open-link">Open Log →</Link>
+                  <div className="project-card__actions">
+                    <button onClick={() => startEditing(project)} className="btn-text-accent">Edit Info</button>
+                    <button onClick={() => handleDeleteProject(project.id)} className="btn-text-danger">Discard</button>
                   </div>
                 </div>
               </>
             )}
-
           </div>
         ))}
       </div>

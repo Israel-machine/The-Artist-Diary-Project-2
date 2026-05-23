@@ -1,9 +1,12 @@
 /* Universal Ribbon Top-Header Style */
 .app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: var(--nav-bg);
   padding: 16px 32px;
   border-bottom: 1px solid var(--border);
-  border-radius: 0 0 12px 12px; /* Smoothly rounds out just the bottom corners of the header ribbon */
+  border-radius: 0 0 12px 12px;
 }
 
 /* Force all dynamic elements inside the ribbon to inherit legible theme text tracking */
@@ -16,6 +19,144 @@
   color: var(--nav-text) !important;
 }
 
+.app-header__title {
+  margin: 0;
+}
+
+.app-header__logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.app-header__nav-link {
+  text-decoration: none;
+}
+
+.app-header__logout-btn {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Main content area */
+.app-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Auth loading / protected route */
+.auth-loading {
+  padding: 50px;
+  text-align: center;
+}
+
+/* ─── Auth Pages (Login & Signup) ─────────────────────────────── */
+
+.auth-page {
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.auth-form__error {
+  color: red;
+  font-size: 14px;
+}
+
+.auth-form__input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.auth-form__submit {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-form__footer-text {
+  font-size: 14px;
+}
+
+.auth-form__footer-link {
+  color: var(--accent);
+}
+
+/* ─── Shared form utilities ───────────────────────────────────── */
+
+.form-error {
+  color: red;
+}
+
+.form-error--block {
+  margin: 15px 0;
+}
+
+.form-input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.form-textarea {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  min-height: 60px;
+}
+
+/* ─── Shared action buttons ───────────────────────────────────── */
+
+.btn-save {
+  background: #28a745;
+  color: #fff;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-cancel {
+  background: #6c757d;
+  color: #fff;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-text-accent {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-text-danger {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* ─── Counter / accent pill ───────────────────────────────────── */
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -24,7 +165,6 @@
   background: var(--accent-bg);
   border: 2px solid transparent;
   transition: border-color 0.3s;
-  margin-bottom: 24px;
 
   &:hover {
     border-color: var(--accent-border);
@@ -34,6 +174,8 @@
     outline-offset: 2px;
   }
 }
+
+/* ─── Layout utilities ────────────────────────────────────────── */
 
 #center {
   display: flex;

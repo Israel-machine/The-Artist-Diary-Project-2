@@ -21,17 +21,17 @@ export default function Signup() {
   };
 
   return (
-    <div id="center" style={{ maxWidth: '400px', margin: '40px auto' }}>
+    <div id="center" className="auth-page">
       <h1>Register</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-        {error && <div style={{ color: 'red', fontSize: '14px' }}>{error}</div>}
+      <form onSubmit={handleSubmit} className="auth-form">
+        {error && <div className="auth-form__error">{error}</div>}
         <input 
           type="text" 
           placeholder="Choose Username" 
           value={username} 
           onChange={e => setUsername(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
+          className="auth-form__input"
         />
         <input 
           type="password" 
@@ -39,12 +39,12 @@ export default function Signup() {
           value={password} 
           onChange={e => setPassword(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
+          className="auth-form__input"
         />
-        <button type="submit" className="counter" style={{ width: '100%', cursor: 'pointer' }}>Register Space</button>
+        <button type="submit" className="counter auth-form__submit">Register Space</button>
       </form>
-      <p style={{ fontSize: '14px' }}>
-        Already registered? <Link to="/login" style={{ color: 'var(--accent)' }}>Sign in here</Link>
+      <p className="auth-form__footer-text">
+        Already registered? <Link to="/login" className="auth-form__footer-link">Sign in here</Link>
       </p>
     </div>
   );

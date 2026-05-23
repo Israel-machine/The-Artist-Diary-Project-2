@@ -19,17 +19,17 @@ export default function Login() {
   };
 
   return (
-    <div id="center" style={{ maxWidth: '400px', margin: '40px auto' }}>
+    <div id="center" className="auth-page">
       <h1>Sign In</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%' }}>
-        {error && <div style={{ color: 'red', fontSize: '14px' }}>{error}</div>}
+      <form onSubmit={handleSubmit} className="auth-form">
+        {error && <div className="auth-form__error">{error}</div>}
         <input 
           type="text" 
           placeholder="Username" 
           value={username} 
           onChange={e => setUsername(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
+          className="auth-form__input"
         />
         <input 
           type="password" 
@@ -37,12 +37,12 @@ export default function Login() {
           value={password} 
           onChange={e => setPassword(e.target.value)}
           required
-          style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text-h)' }}
+          className="auth-form__input"
         />
-        <button type="submit" className="counter" style={{ width: '100%', cursor: 'pointer', display: 'justify-content' }}>Enter Diary</button>
+        <button type="submit" className="counter auth-form__submit">Enter Diary</button>
       </form>
-      <p style={{ fontSize: '14px' }}>
-        New artist? <Link to="/signup" style={{ color: 'var(--accent)' }}>Create an account</Link>
+      <p className="auth-form__footer-text">
+        New artist? <Link to="/signup" className="auth-form__footer-link">Create an account</Link>
       </p>
     </div>
   );
