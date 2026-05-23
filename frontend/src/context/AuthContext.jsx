@@ -63,10 +63,6 @@ export const AuthProvider = ({ children }) => {
         return data;
     };
 
-    // const logout = () => {
-    //     setToken(null);
-    //     setUser(null);
-    // };
     const logout = async () => {
     if (token) {
         try {

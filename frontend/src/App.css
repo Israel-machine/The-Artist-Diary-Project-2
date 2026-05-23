@@ -1,15 +1,22 @@
-/* :root {
-  --bg: #1a1a1a;
-  --text: #e0e0e0;
-  --text-h: #ffffff;
-  --border: #333333;
-  --accent: #00f0ff;
-  --accent-bg: rgba(0, 240, 255, 0.1);
-  --accent-border: #00f0ff;
-  --code-bg: #111111;
-  --social-bg: #222222; /* ← MAKE SURE THIS LINE EXISTS */
-} */
+.navbar {
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 12px 12px; /* Smoothly rounds out just the bottom corners of the header ribbon */
+}
 
+/* Ensures layout buttons and links inside the ribbon inherit the correct readable text color */
+.navbar a, 
+.navbar button,
+.navbar h1,
+.navbar h2,
+.navbar div {
+  color: var(--nav-text) !important;
+}
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -193,4 +200,26 @@
     right: 0;
     border-right-color: var(--border);
   }
+}
+
+/* ADD THIS TO THE BOTTOM OF App.css */
+
+.navbar {
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 12px 12px; /* Smoothly rounds out just the bottom corners of the header ribbon */
+}
+
+/* Ensures layout buttons and links inside the ribbon inherit the correct readable text color */
+.navbar a, 
+.navbar button,
+.navbar h1,
+.navbar h2,
+.navbar div {
+  color: var(--nav-text) !important;
 }

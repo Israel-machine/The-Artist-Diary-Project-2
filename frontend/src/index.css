@@ -10,7 +10,8 @@
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
+  --nav-bg: #EAA814;          
+  --nav-text: #08060d
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -32,6 +33,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --nav-bg: #df9b09; 
+    --nav-text: #08060d;
     --text: #9ca3af;
     --text-h: #f3f4f6;
     --bg: #16171d;
@@ -108,4 +111,13 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+input, 
+textarea, 
+form, 
+div[style*="border"], 
+.project-card, 
+.session-card {
+  border-radius: 12px !important; /* Forces all component boxes to have clean rounded edges */
 }

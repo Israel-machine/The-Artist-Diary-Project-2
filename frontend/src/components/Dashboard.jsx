@@ -8,12 +8,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Creation Form State
   const [title, setTitle] = useState('');
   const [medium, setMedium] = useState('');
   const [description, setDescription] = useState('');
 
-  // --- NEW UPDATE/EDIT STATE CONTROL ---
+  
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editMedium, setEditMedium] = useState('');
@@ -48,7 +47,7 @@ export default function Dashboard() {
     } catch (err) { setError(err.message); }
   };
 
-  // --- NEW PUT ACTION HANDLER ---
+  
   const handleUpdateProject = async (e, id) => {
     e.preventDefault();
     try {
@@ -78,7 +77,7 @@ export default function Dashboard() {
     } catch (err) { setError(err.message); }
   };
 
-  // Switch a project card into inline edit mode
+  
   const startEditing = (project) => {
     setEditingProjectId(project.id);
     setEditTitle(project.title);
@@ -120,7 +119,7 @@ export default function Dashboard() {
                 </div>
               </form>
             ) : (
-              /* STANDARD VIEW DISPLAY */
+              
               <>
                 <div>
                   <h2 style={{ margin: '0 0 4px 0' }}>{project.title}</h2>
