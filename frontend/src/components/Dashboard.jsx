@@ -105,7 +105,7 @@ export default function Dashboard() {
 
       <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginTop: '30px' }}>
         {projects.map(project => (
-          <div key={project.id} style={{ padding: '20px', border: '1px solid var(--border)', borderRadius: '8px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div key={project.id} style={{ padding: '20px', borderRadius: '8px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
             
             {editingProjectId === project.id ? (
               /* INLINE EDIT CARD LAYOUT */

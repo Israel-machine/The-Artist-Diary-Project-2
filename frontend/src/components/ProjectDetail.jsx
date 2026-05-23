@@ -242,7 +242,7 @@ export default function ProjectDetail() {
                 const parsedData = parseSessionData(session.color_notes);
 
                 return (
-                  <div key={session.id} style={{ padding: '15px', borderLeft: '4px solid var(--accent)', background: 'var(--code-bg)', borderRadius: '0 6px 6px 0' }}>
+                  <div key={session.id} style={{ padding: '15px', borderLeft: '4px solid var(--accent)', background: '#ffffff', borderRadius: '0 6px 6px 0' }}>
                     
                     {editingSessionId === session.id ? (
                       

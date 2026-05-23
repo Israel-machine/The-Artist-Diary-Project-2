@@ -19,20 +19,24 @@ export default function App() {
 
   return (
     <>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px', borderBottom: '1px solid var(--border)' }}>
+      {/* 
+        Changed to use the global 'app-header' class rule.
+        Retained the flexbox inline layout properties to keep positioning intact.
+      */}
+      <header className="app-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2 style={{ margin: 0 }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>🎨 The Artist Diary</Link>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}> The Artist Diary</Link>
         </h2>
         <nav style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <Link to="/" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Dashboard</Link>
+          <Link to="/" style={{ textDecoration: 'none' }}>Dashboard</Link>
           {user ? (
             <button onClick={logout} className="counter" style={{ margin: 0, cursor: 'pointer' }}>
               Logout ({user.username})
             </button>
           ) : (
             <>
-              <Link to="/login" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Login</Link>
-              <Link to="/signup" style={{ color: 'var(--text-h)', textDecoration: 'none' }}>Signup</Link>
+              <Link to="/login" style={{ textDecoration: 'none' }}>Login</Link>
+              <Link to="/signup" style={{ textDecoration: 'none' }}>Signup</Link>
             </>
           )}
         </nav>

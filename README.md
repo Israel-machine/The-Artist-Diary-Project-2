@@ -13,6 +13,7 @@ Start frontend server
     npm run dev
     
 install req.txt
+    To start backend server:
     pip install -r requirements.txt
 
 Front end packages:
