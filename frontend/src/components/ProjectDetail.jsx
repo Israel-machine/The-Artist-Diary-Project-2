@@ -226,7 +226,7 @@ export default function ProjectDetail() {
               <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Playlist Focus Link</label>
               <input type="url" value={playlistUrl} onChange={e => setPlaylistUrl(e.target.value)} style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
             </div>
-            <button type="submit" className="counter" style={{ cursor: 'pointer', marginTop: '10px' }}>Commit Session Details</button>
+            <button type="submit" className="counter" style={{ cursor: 'pointer', marginTop: '10px' }}>Create New Session</button>
           </form>
         </div>
 

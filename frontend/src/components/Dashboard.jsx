@@ -95,14 +95,15 @@ export default function Dashboard() {
       </div>
 
       <form onSubmit={handleCreateProject} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '500px', margin: '20px auto', padding: '20px', border: '1px solid var(--border)', borderRadius: '8px' }}>
-        <h3>🎨 Initialize New Artwork</h3>
+        <h3>🎨 New Project Details</h3>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <input type="text" placeholder="Artwork Title" value={title} onChange={e => setTitle(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
         <input type="text" placeholder="Medium" value={medium} onChange={e => setMedium(e.target.value)} required style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }} />
         <textarea placeholder="Creative notes..." value={description} onChange={e => setDescription(e.target.value)} style={{ padding: '8px', borderRadius: '4px', border: '1px solid var(--border)', minHeight: '60px' }} />
-        <button type="submit" className="counter" style={{ cursor: 'pointer' }}>Commit Project</button>
+        <button type="submit" className="counter" style={{ cursor: 'pointer' }}>Create New Project</button>
       </form>
 
+      <div>CURRENT PROJECTS</div>
       <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginTop: '30px' }}>
         {projects.map(project => (
           <div key={project.id} style={{ padding: '20px', borderRadius: '8px', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: '#ffffff' }}>
