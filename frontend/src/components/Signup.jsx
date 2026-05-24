@@ -41,7 +41,7 @@ export default function Signup() {
           required
           className="auth-form__input"
         />
-        <button type="submit" className="counter auth-form__submit">Register Space</button>
+        <button type="submit" className="counter auth-form__submit">Register User</button>
       </form>
       <p className="auth-form__footer-text">
         Already registered? <Link to="/login" className="auth-form__footer-link">Sign in here</Link>
