@@ -5,14 +5,14 @@ By keeping track of all of these details, you can streamline your work flow to c
 
 # Technologies
 ## Frontend Architecture
-React 18 & Vite
-React Router v6 
-Context API
+1. React 18 & Vite
+2. React Router v6 
+3. Context API
 ## Backend Infrastructure
-Flask (Python)
-SQLAlchemy ORM & SQLite
-Flask-Bcrypt
-Flask-JWT-Extended
+1. Flask (Python)
+2. SQLAlchemy ORM & SQLite
+3. Flask-Bcrypt
+4. Flask-JWT-Extended
 
 # Set up and run instructions
 ## Install and activate depedencies
