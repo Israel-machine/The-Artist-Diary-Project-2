@@ -24,7 +24,6 @@ export default function Dashboard() {
     })
     .then(res => res.json())
     .then(data => { 
-     
       if (data && Array.isArray(data.projects)) {
         setProjects(data.projects); 
       } 

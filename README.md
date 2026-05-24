@@ -18,14 +18,16 @@ By keeping track of all of these details, you can streamline your work flow to c
 ## Install and activate depedencies
 pipenv install
 pipenv shell
-pip install -r requirements.txt
 
 ## Backend Set Up
 cd backend
 python app.py or python3 app.py
+run if server initizalization fails: pip install -r requirements.txt
+
 
 ## Front End Set Up
 create new terminal
+pipenv shell 
 cd frontend
 npm install
 npm run dev
