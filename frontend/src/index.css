@@ -1,5 +1,4 @@
 :root {
-  /* Text & Colors */
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #56494914;
@@ -11,16 +10,13 @@
   
   --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   
-  /* Dynamic Theme Variables for aesthetics rules */
-  --nav-bg: #FFC000;              /* Mango Yellow */
+  --nav-bg: #FFC000;              
   --nav-text: #08060d;
-  --form-bg: #c0e4fa;             /* Light Blue Grey Background */
+  --form-bg: #c0e4fa;            
 
-  /* Submit Buttons & Custom Yellow Accent Elements */
-  --submit-btn-bg: #fef08a;       /* Pastel Yellow for Submit Elements */
-  --accent-yellow: #ffd969;       /* Target Yellow for Open Log, Add Color, & Total Time */
+  --submit-btn-bg: #fef08a;       
+  --accent-yellow: #ffd969;       
   
-  /* UPDATED: Enforce Arial / Sans-Serif across all elements */
   --sans: Arial, Helvetica, sans-serif;
   --heading: Arial, Helvetica, sans-serif;
   --mono: Arial, Helvetica, sans-serif;
@@ -42,9 +38,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --nav-bg: #e0a300;            /* Slightly deeper mango for dark appearance readability */
+    --nav-bg: #e0a300;           
     --nav-text: #08060d;
-    --form-bg: #1f2633;           /* Dark slate-blue equivalent for dark mode eye protection */
+    --form-bg: #1f2633;           
     --text: #9ca3af;
     --text-h: #f3f4f6;
     --bg: #16171d;
@@ -55,7 +51,7 @@
     --accent-border: #ffd969;
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-    --submit-btn-bg: #fde047;     /* High contrast dark mode pastel-yellow alternate */
+    --submit-btn-bg: #fde047;     
     --accent-yellow: #ffd969;
   }
 }
@@ -120,7 +116,6 @@ code {
   background: var(--code-bg);
 }
 
-/* Global container targets to sweep out code redundancy from inline markup wrappers */
 form.aesthetic-form {
   background-color: var(--form-bg) !important;
 }
@@ -129,7 +124,6 @@ input, textarea, form, div[style*="border"] {
   border-radius: 12px !important;
 }
 
-/* Global style targeting all form submit buttons */
 button[type="submit"] {
   background-color: var(--nav-bg) !important;
   color: #000000 !important; /* Forces text inside to be pure black */
@@ -138,29 +132,25 @@ button[type="submit"] {
   display: inline;
 }
 
-/* Optional: Slight hover effect for better user experience */
 button[type="submit"]:hover {
-  filter: brightness(0.95); /* Corrected syntax to darkens slightly on hover */
+  filter: brightness(0.95); 
   cursor: pointer;
 }
 
 button[type="submit"]:active {
-  transform: scale(0.98); /* Subtle click depression effect */
+  transform: scale(0.98); 
 }
 
-/* Custom Utility Class for specific yellow aesthetic pieces */
 .yellow-accent-bg {
   background-color: var(--accent-yellow) !important;
-  color: #000000 !important; /* Ensures crisp text readability */
+  color: #000000 !important; 
 }
 
-/* Ensure the Open Log link button displays correctly with the new color background */
 a.counter.yellow-accent-bg {
   background: var(--accent-yellow) !important;
   color: #000000 !important;
 }
 
-/* GLOBAL CATCH-ALL: Force font-family system reset to Arial on all UI scopes */
 *,
 *::before,
 *::after,

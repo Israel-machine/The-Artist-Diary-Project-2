@@ -50,13 +50,10 @@
   flex-direction: column;
 }
 
-/* Auth loading / protected route */
 .auth-loading {
   padding: 50px;
   text-align: center;
 }
-
-/* ─── Auth Pages (Login & Signup) ─────────────────────────────── */
 
 .auth-page {
   max-width: 400px;
@@ -98,8 +95,6 @@
   color: var(--accent);
 }
 
-/* ─── Shared form utilities ───────────────────────────────────── */
-
 .form-error {
   color: red;
 }
@@ -120,8 +115,6 @@
   border: 1px solid var(--border);
   min-height: 60px;
 }
-
-/* ─── Shared action buttons ───────────────────────────────────── */
 
 .btn-save {
   background: #28a745;
@@ -155,8 +148,6 @@
   font-size: 13px;
 }
 
-/* ─── Counter / accent pill ───────────────────────────────────── */
-
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -174,8 +165,6 @@
     outline-offset: 2px;
   }
 }
-
-/* ─── Layout utilities ────────────────────────────────────────── */
 
 #center {
   display: flex;

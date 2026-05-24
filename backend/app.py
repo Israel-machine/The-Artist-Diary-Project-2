@@ -83,21 +83,32 @@ def get_me():
     }), 200
 
 
-# Project Routes (Home Page / Dashboard)
-
 @app.route('/api/projects', methods=['GET', 'POST'])
 @jwt_required()
 def handle_projects():
     current_user_id = get_jwt_identity()
 
     if request.method == 'GET':
-        projects = Project.query.filter_by(user_id=current_user_id).all()
-        return jsonify([{
-            "id": p.id,
-            "title": p.title,
-            "medium": p.medium,
-            "description": p.description
-        } for p in projects]), 200
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 6, type=int)
+
+        paginated_data = Project.query.filter_by(user_id=current_user_id).paginate(
+            page=page, per_page=per_page, error_out=False
+        )
+
+        return jsonify({
+            "projects": [{
+                "id": p.id,
+                "title": p.title,
+                "medium": p.medium,
+                "description": p.description
+            } for p in paginated_data.items],
+            "total_pages": paginated_data.pages,
+            "current_page": paginated_data.page,
+            "total_items": paginated_data.total,
+            "has_next": paginated_data.has_next,
+            "has_prev": paginated_data.has_prev
+        }), 200
 
     if request.method == 'POST':
         data = request.get_json()

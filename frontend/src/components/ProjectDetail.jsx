@@ -159,7 +159,6 @@ export default function ProjectDetail() {
 
       <div className="project-detail__grid">
 
-        {/* Record Session Form */}
         <div>
           <h3>⏱️ Record Studio Session</h3>
           <form onSubmit={handleAddSession} className="session-form">
@@ -217,7 +216,6 @@ export default function ProjectDetail() {
           </form>
         </div>
 
-        {/* Session Timeline Log */}
         <div>
           <h3>📜 Production Timeline Log</h3>
           <div className="session-list">

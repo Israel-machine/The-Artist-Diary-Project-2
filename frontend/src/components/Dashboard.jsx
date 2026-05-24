@@ -23,7 +23,12 @@ export default function Dashboard() {
       headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(res => res.json())
-    .then(data => { if (Array.isArray(data)) setProjects(data); })
+    .then(data => { 
+     
+      if (data && Array.isArray(data.projects)) {
+        setProjects(data.projects); 
+      } 
+    })
     .catch(err => console.error(err))
     .finally(() => setLoading(false));
   };

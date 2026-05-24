@@ -1,8 +1,6 @@
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import './App.css';
-
-// Operational Component Bindings
 import Login from './components/Login'; 
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
